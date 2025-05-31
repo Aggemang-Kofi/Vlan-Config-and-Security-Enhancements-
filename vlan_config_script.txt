@@ -1,0 +1,57 @@
+enable
+configure terminal
+
+! VLANs
+vlan 2
+ name STAFF
+vlan 3
+ name HR
+vlan 4
+ name FINANCE
+vlan 5
+ name SALES
+vlan 6
+ name IT
+vlan 7
+ name GUEST
+vlan 8
+ name PRINTERS
+vlan 9
+ name SERVERS
+vlan 10
+ name MANAGEMENT
+
+! Assign Access Ports
+interface range gi1/0/1 - 2
+ description Staff PCs
+ switchport mode access
+ switchport access vlan 2
+
+interface range gi1/0/3 - 4
+ description HR PCs
+ switchport mode access
+ switchport access vlan 3
+
+interface gi1/0/5
+ description Finance Dept
+ switchport mode access
+ switchport access vlan 4
+
+interface gi1/0/6
+ description Sales Dept
+ switchport mode access
+ switchport access vlan 5
+
+! Trunk Port to Router/Core
+interface gi1/0/48
+ description Uplink to Core
+ switchport mode trunk
+ switchport trunk allowed vlan 1-10
+
+! VLAN Interface for Management (optional)
+interface vlan 10
+ ip address 192.168.10.1 255.255.255.0
+ no shutdown
+
+end
+write memory
