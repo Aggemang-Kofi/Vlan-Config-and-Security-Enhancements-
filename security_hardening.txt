@@ -1,46 +1,46 @@
-! Security Best Practices for Cisco Catalyst 9300
+# Security Best Practices for Cisco Catalyst 9300
 
-! 1. Disable Unused Ports
+#  1. Disable Unused Ports
 interface range gi1/0/11 - 47
  shutdown
 
-! 2. Port Security on Access Ports
+# 2. Port Security on Access Ports
 interface range gi1/0/1 - 10
  switchport port-security
  switchport port-security maximum 2
  switchport port-security violation restrict
  switchport port-security mac-address sticky
 
-! 3. Enable BPDU Guard on Access Ports
+# 3. Enable BPDU Guard on Access Ports
 interface range gi1/0/1 - 10
  spanning-tree portfast
  spanning-tree bpduguard enable
 
-! 4. Set Native VLAN (Avoid VLAN 1)
+# 4. Set Native VLAN (Avoid VLAN 1)
 interface gi1/0/48
  switchport trunk native vlan 999
  switchport trunk allowed vlan 2-10
 
-! 5. Configure VLAN 999 (native)
+# 5. Configure VLAN 999 (native)
 vlan 999
  name BLACKHOLE
 
-! 6. Enable DHCP Snooping
+# 6. Enable DHCP Snooping
 ip dhcp snooping
 ip dhcp snooping vlan 2-10
 interface gi1/0/48
  ip dhcp snooping trust
 
-! 7. Enable Dynamic ARP Inspection
+# 7. Enable Dynamic ARP Inspection
 ip arp inspection vlan 2-10
 interface gi1/0/48
  ip arp inspection trust
 
-! 8. AAA Authentication Placeholder (requires RADIUS server)
+# 8. AAA Authentication Placeholder (requires RADIUS server)
 aaa new-model
-! aaa authentication login default group radius local
+aaa authentication login default group radius local
 
-! 9. Syslog Configuration
+# 9. Syslog Configuration
 logging host 192.168.10.100
 logging trap informational
 service timestamps log datetime msec
